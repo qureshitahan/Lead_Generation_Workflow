@@ -7,6 +7,7 @@ from app.models.company import Company
 from app.models.contact import Contact
 from app.models.email_draft import EmailDraft
 from app.models.job import Job
+from app.models.job_search import JobSearch
 from app.models.match import Match
 from app.models.raw_job import RawJob
 from app.models.suppression import OutreachHistory, Suppression
@@ -20,6 +21,7 @@ __all__ = [
     "Contact",
     "EmailDraft",
     "Job",
+    "JobSearch",
     "Match",
     "RawJob",
     "OutreachHistory",

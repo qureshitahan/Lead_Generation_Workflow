@@ -156,6 +156,36 @@ export interface DashboardStats {
   calls_total: number;
 }
 
+export interface DiscoverImportSummary {
+  search_id: number;
+  provider: string;
+  snapshot_id?: string | null;
+  records_fetched: number;
+  source: string;
+  batch_id: string;
+  total_records: number;
+  imported: number;
+  duplicates: number;
+  errors: number;
+  job_ids: number[];
+  error_messages: string[];
+}
+
+export interface JobSearchRecord {
+  id: number;
+  provider: string;
+  keyword: string;
+  location?: string | null;
+  filters?: Record<string, unknown> | null;
+  snapshot_id?: string | null;
+  status: string;
+  records_fetched?: number | null;
+  records_imported?: number | null;
+  records_duplicates?: number | null;
+  error_message?: string | null;
+  created_at: string;
+}
+
 export interface ImportSummary {
   source: string;
   batch_id: string;

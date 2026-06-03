@@ -63,6 +63,10 @@ class JobSourceAdapter(ABC):
     def parse(self, content: bytes | str, content_type: Optional[str] = None) -> List[ParsedJob]:
         """Parse raw file content (CSV or JSON) into ParsedJob records."""
         records = self._load_records(content, content_type)
+        return self.parse_records(records)
+
+    def parse_records(self, records: List[dict]) -> List[ParsedJob]:
+        """Convert API/JSON records into ParsedJob objects (shared by file + discovery)."""
         return [self._to_parsed(rec) for rec in records]
 
     # --- helpers ---

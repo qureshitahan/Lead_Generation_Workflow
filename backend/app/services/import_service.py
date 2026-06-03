@@ -48,11 +48,26 @@ def import_jobs(
     content: bytes | str,
     content_type: Optional[str] = None,
     target_roles: Optional[List[str]] = None,
+    batch_id: Optional[str] = None,
 ) -> ImportResult:
+    """Import jobs from uploaded/pasted file content."""
     adapter = get_adapter(source)
     parsed = adapter.parse(content, content_type=content_type)
+    return import_parsed_jobs(
+        db, source=source, parsed=parsed, target_roles=target_roles, batch_id=batch_id
+    )
 
-    batch_id = uuid.uuid4().hex[:12]
+
+def import_parsed_jobs(
+    db: Session,
+    *,
+    source: str,
+    parsed: List[ParsedJob],
+    target_roles: Optional[List[str]] = None,
+    batch_id: Optional[str] = None,
+) -> ImportResult:
+    """Run the core ingest pipeline on already-parsed records (file or API discovery)."""
+    batch_id = batch_id or uuid.uuid4().hex[:12]
     result = ImportResult(source=source, batch_id=batch_id, total_records=len(parsed))
 
     for record in parsed:

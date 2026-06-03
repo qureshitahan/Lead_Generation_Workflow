@@ -6,6 +6,7 @@ from app.api.routes import (
     candidates,
     companies,
     contacts,
+    discover,
     emails,
     imports,
     jobs,
@@ -16,6 +17,7 @@ from app.api.routes import (
 api_router = APIRouter(prefix="/api")
 api_router.include_router(stats.router)
 api_router.include_router(imports.router)
+api_router.include_router(discover.router)
 api_router.include_router(jobs.router)
 api_router.include_router(companies.router)
 api_router.include_router(contacts.router)

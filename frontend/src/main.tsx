@@ -15,6 +15,7 @@ import Matches from "./pages/Matches";
 import Emails from "./pages/Emails";
 import Calls from "./pages/Calls";
 import ImportPage from "./pages/Import";
+import Discover from "./pages/Discover";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<Dashboard />} />
+            <Route path="discover" element={<Discover />} />
             <Route path="jobs" element={<Jobs />} />
             <Route path="jobs/:id" element={<JobDetail />} />
             <Route path="companies" element={<Companies />} />

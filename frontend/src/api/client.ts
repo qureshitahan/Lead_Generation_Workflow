@@ -5,9 +5,11 @@ import type {
   Company,
   Contact,
   DashboardStats,
+  DiscoverImportSummary,
   EmailDraft,
   ImportSummary,
   Job,
+  JobSearchRecord,
   Match,
   Page,
 } from "../types";
@@ -110,6 +112,31 @@ export const generateCall = (payload: {
 }) => api.post<Call>("/api/calls/generate", payload).then((r) => r.data);
 export const setCallStatus = (id: number, status: string) =>
   api.post<Call>(`/api/calls/${id}/status`, { status }).then((r) => r.data);
+
+// --- Job discovery (Bright Data / stub) ---
+export interface JobDiscoverPayload {
+  keyword: string;
+  location?: string;
+  time_range?: string;
+  country?: string;
+  job_type?: string;
+  experience_level?: string;
+  remote?: string;
+  company?: string;
+  location_radius?: string;
+  limit?: number;
+  provider?: string;
+}
+export const discoverJobs = (payload: JobDiscoverPayload) =>
+  api
+    .post<DiscoverImportSummary>("/api/discover/jobs", payload, {
+      timeout: 360000, // Bright Data collection can take several minutes
+    })
+    .then((r) => r.data);
+export const listDiscoverySearches = (params: Record<string, unknown> = {}) =>
+  api
+    .get<Page<JobSearchRecord>>("/api/discover/searches", { params })
+    .then((r) => r.data);
 
 // --- Import ---
 export const importPaste = (source: string, content: string) =>

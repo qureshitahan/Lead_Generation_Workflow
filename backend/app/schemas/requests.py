@@ -14,6 +14,23 @@ class JobReviewRequest(BaseModel):
     notes: Optional[str] = None
 
 
+class JobDiscoverRequest(BaseModel):
+    """Search for LinkedIn jobs via the configured discovery provider."""
+
+    keyword: str
+    location: str = ""
+    time_range: str = ""           # Past week | Past month | Any time
+    country: str = ""
+    job_type: str = ""             # Full-time | Part-time | Contract | ...
+    experience_level: str = ""
+    remote: str = ""               # On-site | Remote | Hybrid
+    company: str = ""
+    location_radius: str = ""
+    limit: Optional[int] = None
+    provider: Optional[str] = None  # override JOB_DISCOVERY_PROVIDER
+    requested_by: Optional[str] = "recruiter"
+
+
 class ImportPasteRequest(BaseModel):
     """Import jobs from pasted CSV/JSON text instead of a file upload."""
 

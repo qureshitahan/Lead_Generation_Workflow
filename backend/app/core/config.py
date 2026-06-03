@@ -35,8 +35,16 @@ class Settings(BaseSettings):
         "Data Engineer",
     ]
 
-    # --- Job sources ---
+    # --- Job discovery (in-app search) ---
+    # Provider: brightdata | stub (stub uses sample_data; apify later)
+    job_discovery_provider: str = "brightdata"
     brightdata_api_key: str = ""
+    brightdata_dataset_id: str = "gd_lpfll7v5hcqtkxl6l"
+    brightdata_poll_interval_seconds: int = 5
+    brightdata_poll_timeout_seconds: int = 300
+    brightdata_default_limit_per_search: int = 50
+
+    # --- Job sources (file import adapters) ---
     apify_api_token: str = ""
 
     # --- Enrichment ---

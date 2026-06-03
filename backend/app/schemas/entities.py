@@ -170,6 +170,40 @@ class AuditLogOut(ORMModel):
     created_at: datetime
 
 
+class JobSearchOut(ORMModel):
+    id: int
+    provider: str
+    keyword: str
+    location: Optional[str] = None
+    filters: Optional[dict] = None
+    snapshot_id: Optional[str] = None
+    import_batch_id: Optional[str] = None
+    status: str
+    records_fetched: Optional[int] = None
+    records_imported: Optional[int] = None
+    records_duplicates: Optional[int] = None
+    error_message: Optional[str] = None
+    requested_by: Optional[str] = None
+    created_at: datetime
+
+
+class DiscoverImportSummary(BaseModel):
+    """Result of an in-app job search + import."""
+
+    search_id: int
+    provider: str
+    snapshot_id: Optional[str] = None
+    records_fetched: int
+    source: str
+    batch_id: str
+    total_records: int
+    imported: int
+    duplicates: int
+    errors: int
+    job_ids: List[int]
+    error_messages: List[str]
+
+
 class ImportSummary(BaseModel):
     source: str
     batch_id: str

@@ -77,9 +77,18 @@ class SuppressionScope:
     EMAIL = "email"
 
 
+class JobSearchStatus:
+    PENDING = "pending"
+    RUNNING = "running"
+    READY = "ready"
+    IMPORTED = "imported"
+    FAILED = "failed"
+
+
 class AuditAction:
     """High-level categories for the audit log."""
 
+    JOB_DISCOVER = "job_discover"
     IMPORT = "import"
     NORMALIZE = "normalize"
     CLASSIFY_RELEVANCE = "classify_relevance"

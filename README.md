@@ -86,7 +86,16 @@ Dashboard: http://localhost:5173  (it proxies `/api` to the backend on :8000)
 
 ---
 
-## First workflow (Milestone 1)
+## Job discovery (Bright Data API)
+
+1. Add `BRIGHTDATA_API_KEY` and `BRIGHTDATA_DATASET_ID` to `backend/.env`.
+2. Open **Discover Jobs**, enter keyword + location + filters, and click **Search & import**.
+3. The app triggers Bright Data’s LinkedIn “Discover by Keyword” API, waits for results,
+   then runs the same import/classification pipeline as file upload.
+
+For local dev without API keys, set `JOB_DISCOVERY_PROVIDER=stub` in `.env`.
+
+## First workflow (Milestone 1 — file import)
 
 1. Go to **Import Jobs**, choose **Bright Data**, and upload
    `backend/sample_data/brightdata_sample.json` (or paste JSON/CSV).
