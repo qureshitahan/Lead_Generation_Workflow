@@ -12,6 +12,7 @@ from app.api.routes import (
     jobs,
     matches,
     stats,
+    webhooks,
 )
 
 api_router = APIRouter(prefix="/api")
@@ -25,5 +26,6 @@ api_router.include_router(candidates.router)
 api_router.include_router(matches.router)
 api_router.include_router(emails.router)
 api_router.include_router(calls.router)
+api_router.include_router(webhooks.router)
 
 __all__ = ["api_router"]

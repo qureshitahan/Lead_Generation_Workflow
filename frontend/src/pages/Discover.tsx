@@ -102,14 +102,17 @@ export default function Discover() {
           </div>
           <div>
             <label className="mb-1 block text-xs font-medium text-slate-500">
-              Location
+              Location *
             </label>
             <input
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              placeholder="San Francisco, CA or Remote"
+              placeholder="e.g. United States, San Francisco CA, or Remote"
               className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
             />
+            <p className="mt-1 text-xs text-slate-400">
+              Required by Bright Data. Use a country, city, or “Remote”.
+            </p>
           </div>
           <div>
             <label className="mb-1 block text-xs font-medium text-slate-500">
@@ -198,7 +201,7 @@ export default function Discover() {
         <div className="mt-4 flex justify-end">
           <Button
             onClick={() => search.mutate()}
-            disabled={!keyword.trim() || search.isPending}
+            disabled={!keyword.trim() || !location.trim() || search.isPending}
           >
             {search.isPending ? "Searching LinkedIn…" : "Search & import jobs"}
           </Button>
@@ -238,8 +241,11 @@ export default function Discover() {
             </p>
           )}
           <div className="mt-3">
-            <Link to="/jobs" className="text-sm font-medium text-slate-900 underline">
-              Review imported jobs →
+            <Link
+              to={`/jobs?batch=${summary.batch_id}`}
+              className="text-sm font-medium text-slate-900 underline"
+            >
+              Review the {summary.imported} job(s) from this search →
             </Link>
           </div>
         </Card>
@@ -264,6 +270,17 @@ export default function Discover() {
                   )}
                   <div className="text-xs text-slate-400">
                     {s.records_imported ?? 0} imported · {s.created_at.slice(0, 16)}
+                    {s.import_batch_id && (
+                      <>
+                        {" · "}
+                        <Link
+                          to={`/jobs?batch=${s.import_batch_id}`}
+                          className="font-medium text-slate-600 underline"
+                        >
+                          view jobs
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </div>
                 <StatusBadge status={s.status} />

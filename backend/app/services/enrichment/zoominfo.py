@@ -22,9 +22,17 @@ class ZoomInfoEnrichmentProvider(EnrichmentProvider):
         self.api_key = settings.zoominfo_api_key
         self._fallback = StubEnrichmentProvider()
 
-    def enrich_company(self, company_name: str, *, linkedin_url: Optional[str] = None) -> EnrichmentResult:
+    def enrich_company(
+        self,
+        company_name: str,
+        *,
+        linkedin_url: Optional[str] = None,
+        domain: Optional[str] = None,
+    ) -> EnrichmentResult:
         if not self.api_key:
-            result = self._fallback.enrich_company(company_name, linkedin_url=linkedin_url)
+            result = self._fallback.enrich_company(
+                company_name, linkedin_url=linkedin_url, domain=domain
+            )
             result.source = "zoominfo (stub fallback: no API key)"
             return result
         raise NotImplementedError("ZoomInfo enrich_company not yet implemented")
@@ -35,9 +43,10 @@ class ZoomInfoEnrichmentProvider(EnrichmentProvider):
         *,
         domain: Optional[str] = None,
         target_titles: Optional[List[str]] = None,
+        limit: Optional[int] = None,
     ) -> List[EnrichmentContact]:
         if not self.api_key:
             return self._fallback.find_contacts(
-                company_name, domain=domain, target_titles=target_titles
+                company_name, domain=domain, target_titles=target_titles, limit=limit
             )
         raise NotImplementedError("ZoomInfo find_contacts not yet implemented")

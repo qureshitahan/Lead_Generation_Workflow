@@ -13,6 +13,55 @@ import {
   Th,
 } from "../components/ui";
 
+const EMAIL_STATUS_TONE: Record<string, "green" | "amber" | "slate"> = {
+  verified: "green",
+  likely: "amber",
+  guessed: "amber",
+  unavailable: "slate",
+};
+
+function PhoneCell({
+  phone,
+  status,
+}: {
+  phone?: string | null;
+  status?: string | null;
+}) {
+  if (phone) {
+    return (
+      <a href={`tel:${phone}`} className="text-blue-600 underline">
+        {phone}
+      </a>
+    );
+  }
+  if (status === "pending") {
+    return <Badge tone="amber">pending</Badge>;
+  }
+  if (status === "unavailable") {
+    return <span className="text-xs text-slate-400">no phone on file</span>;
+  }
+  return <span className="text-slate-400">—</span>;
+}
+
+function EmailCell({ email, status }: { email?: string | null; status?: string | null }) {
+  if (!email) {
+    if (status === "unavailable") {
+      return <span className="text-xs text-slate-400">no email on file</span>;
+    }
+    return <span className="text-slate-400">—</span>;
+  }
+  return (
+    <div className="flex flex-col gap-1">
+      <a href={`mailto:${email}`} className="text-blue-600 underline">
+        {email}
+      </a>
+      {status && (
+        <Badge tone={EMAIL_STATUS_TONE[status] ?? "slate"}>{status}</Badge>
+      )}
+    </div>
+  );
+}
+
 export default function Contacts() {
   const qc = useQueryClient();
   const { data, isLoading } = useQuery({
@@ -56,8 +105,12 @@ export default function Contacts() {
                 <tr key={c.id} className="hover:bg-slate-50">
                   <Td className="font-medium text-slate-900">{c.name}</Td>
                   <Td className="text-slate-600">{c.title ?? "—"}</Td>
-                  <Td className="text-slate-500">{c.email ?? "—"}</Td>
-                  <Td className="text-slate-500">{c.phone ?? "—"}</Td>
+                  <Td className="text-slate-500">
+                    <EmailCell email={c.email} status={c.email_status} />
+                  </Td>
+                  <Td className="text-slate-500">
+                    <PhoneCell phone={c.phone} status={c.phone_reveal_status} />
+                  </Td>
                   <Td>
                     <ScoreBar value={c.confidence_score} />
                   </Td>

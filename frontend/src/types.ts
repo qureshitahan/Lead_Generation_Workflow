@@ -68,9 +68,11 @@ export interface Contact {
   company_id: number;
   name: string;
   title?: string | null;
-  email?: string | null;
-  phone?: string | null;
-  linkedin_url?: string | null;
+    email?: string | null;
+    email_status?: string | null;
+    phone?: string | null;
+    phone_reveal_status?: string | null;
+    linkedin_url?: string | null;
   source?: string | null;
   confidence_score?: number | null;
   usefulness_score?: number | null;
@@ -178,6 +180,7 @@ export interface JobSearchRecord {
   location?: string | null;
   filters?: Record<string, unknown> | null;
   snapshot_id?: string | null;
+  import_batch_id?: string | null;
   status: string;
   records_fetched?: number | null;
   records_imported?: number | null;

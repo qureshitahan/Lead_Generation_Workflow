@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { listJobs, reviewJob, type JobFilters } from "../api/client";
 import {
   Button,
@@ -18,11 +18,15 @@ import {
 
 export default function Jobs() {
   const qc = useQueryClient();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const batch = searchParams.get("batch") || undefined;
   const [filters, setFilters] = useState<JobFilters>({ sort: "relevance" });
 
+  const effectiveFilters: JobFilters = { ...filters, batch_id: batch };
+
   const { data, isLoading } = useQuery({
-    queryKey: ["jobs", filters],
-    queryFn: () => listJobs(filters),
+    queryKey: ["jobs", effectiveFilters],
+    queryFn: () => listJobs(effectiveFilters),
   });
 
   const review = useMutation({
@@ -43,6 +47,22 @@ export default function Jobs() {
         title="Jobs"
         subtitle="Imported postings with relevance + direct-employer scoring. Approve the ones worth pursuing."
       />
+
+      {batch && (
+        <Card className="mb-4 flex items-center justify-between border-blue-200 bg-blue-50 p-3 text-sm">
+          <span className="text-blue-800">
+            Showing only jobs from your latest search
+            {data ? ` (${data.total})` : ""}. Click a job title, then “Find
+            contacts” to get emails &amp; phones.
+          </span>
+          <button
+            className="font-medium text-blue-700 underline"
+            onClick={() => setSearchParams({})}
+          >
+            Show all jobs
+          </button>
+        </Card>
+      )}
 
       <Card className="mb-4 p-4">
         <div className="flex flex-wrap items-center gap-3">

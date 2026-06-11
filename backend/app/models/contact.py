@@ -18,9 +18,15 @@ class Contact(Base, TimestampMixin):
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     title: Mapped[Optional[str]] = mapped_column(String(255))
     email: Mapped[Optional[str]] = mapped_column(String(255), index=True)
+    # Apollo email verification: verified | likely | guessed | unavailable | unknown.
+    email_status: Mapped[Optional[str]] = mapped_column(String(30))
     phone: Mapped[Optional[str]] = mapped_column(String(50))
+    # pending | revealed | unavailable | failed — set when Apollo phone webhook is requested.
+    phone_reveal_status: Mapped[Optional[str]] = mapped_column(String(20))
     linkedin_url: Mapped[Optional[str]] = mapped_column(String(512))
 
+    # Stable id from the enrichment provider (e.g. Apollo person id) for re-lookups.
+    external_id: Mapped[Optional[str]] = mapped_column(String(64), index=True)
     source: Mapped[Optional[str]] = mapped_column(String(50))
     # Confidence that this is a real, reachable, relevant contact (0-100).
     confidence_score: Mapped[Optional[float]] = mapped_column(Float)

@@ -31,6 +31,13 @@ class JobDiscoverRequest(BaseModel):
     requested_by: Optional[str] = "recruiter"
 
 
+class JobFindContactsRequest(BaseModel):
+    """Find + reveal contacts for the company behind a job (Apollo enrichment)."""
+
+    # How many top-ranked contacts to reveal emails/phones for (each costs credits).
+    max_contacts: int = 5
+
+
 class ImportPasteRequest(BaseModel):
     """Import jobs from pasted CSV/JSON text instead of a file upload."""
 

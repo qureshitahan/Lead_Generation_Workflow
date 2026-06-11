@@ -85,7 +85,9 @@ class ContactOut(ORMModel):
     name: str
     title: Optional[str] = None
     email: Optional[str] = None
+    email_status: Optional[str] = None
     phone: Optional[str] = None
+    phone_reveal_status: Optional[str] = None
     linkedin_url: Optional[str] = None
     source: Optional[str] = None
     confidence_score: Optional[float] = None

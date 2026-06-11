@@ -28,6 +28,7 @@ export interface JobFilters {
   min_relevance?: number;
   direct_employer?: boolean;
   search?: string;
+  batch_id?: string;
   sort?: string;
   limit?: number;
   offset?: number;
@@ -43,6 +44,25 @@ export const reviewJob = (
 ) =>
   api
     .post<Job>(`/api/jobs/${id}/review`, { status, notes })
+    .then((r) => r.data);
+export const listJobContacts = (jobId: number, limit = 25) =>
+  api
+    .get<Page<Contact>>(`/api/jobs/${jobId}/contacts`, { params: { limit } })
+    .then((r) => r.data);
+export const findJobContacts = (jobId: number, maxContacts: number) =>
+  api
+    .post<Page<Contact>>(
+      `/api/jobs/${jobId}/find-contacts`,
+      { max_contacts: maxContacts },
+      { timeout: 120000 }
+    )
+    .then((r) => r.data);
+export const getApolloPhoneWebhookStatus = () =>
+  api
+    .get<{
+      phone_reveal_enabled: boolean;
+      webhook_configured: boolean;
+    }>("/api/webhooks/apollo/phone/status")
     .then((r) => r.data);
 
 // --- Companies ---

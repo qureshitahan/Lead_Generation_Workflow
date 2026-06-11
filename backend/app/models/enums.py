@@ -38,6 +38,15 @@ class EnrichmentStatus:
     IN_PROGRESS = "in_progress"
     ENRICHED = "enriched"
     FAILED = "failed"
+
+
+class PhoneRevealStatus:
+    """Async Apollo phone reveal lifecycle (webhook delivery)."""
+
+    PENDING = "pending"
+    REVEALED = "revealed"
+    UNAVAILABLE = "unavailable"
+    FAILED = "failed"
     SKIPPED = "skipped"
 
 
@@ -95,6 +104,7 @@ class AuditAction:
     CLASSIFY_EMPLOYER = "classify_employer"
     JOB_APPROVAL = "job_approval"
     ENRICHMENT = "enrichment"
+    PHONE_REVEAL = "phone_reveal"
     CONTACT_APPROVAL = "contact_approval"
     MATCH = "match"
     EMAIL_DRAFT = "email_draft"

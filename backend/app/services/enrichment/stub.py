@@ -23,8 +23,14 @@ def _guess_domain(company_name: str) -> str:
 class StubEnrichmentProvider(EnrichmentProvider):
     name = "stub"
 
-    def enrich_company(self, company_name: str, *, linkedin_url: Optional[str] = None) -> EnrichmentResult:
-        domain = _guess_domain(company_name)
+    def enrich_company(
+        self,
+        company_name: str,
+        *,
+        linkedin_url: Optional[str] = None,
+        domain: Optional[str] = None,
+    ) -> EnrichmentResult:
+        domain = domain or _guess_domain(company_name)
         return EnrichmentResult(
             found=True,
             source=self.name,
@@ -45,10 +51,10 @@ class StubEnrichmentProvider(EnrichmentProvider):
         *,
         domain: Optional[str] = None,
         target_titles: Optional[List[str]] = None,
+        limit: Optional[int] = None,
     ) -> List[EnrichmentContact]:
         domain = domain or _guess_domain(company_name)
-        # A couple of plausible mock contacts spanning recruiter + technical leader.
-        return [
+        contacts = [
             EnrichmentContact(
                 name="Jordan Recruiter",
                 title="Technical Recruiter",
@@ -64,3 +70,6 @@ class StubEnrichmentProvider(EnrichmentProvider):
                 confidence_score=60.0,
             ),
         ]
+        if limit is not None:
+            return contacts[: max(0, limit)]
+        return contacts
