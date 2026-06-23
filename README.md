@@ -1,4 +1,4 @@
-# Lead Generation Workflow
+# Lead Generation Workflow - Tekhqs
 
 A recruiting outreach automation platform (MVP). It helps a staffing/recruiting
 team find fresh job openings, decide whether each opening is from a **direct
